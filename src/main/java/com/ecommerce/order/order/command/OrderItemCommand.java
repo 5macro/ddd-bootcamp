@@ -8,10 +8,11 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class OrderItemCommand implements Command {
     @NotBlank(message = "产品ID不能为空")
-    private String productId;
+    private UUID productId;
 
     @Min(value = 1, message = "产品数量必须大于0")
     private int count;
@@ -20,7 +21,7 @@ public class OrderItemCommand implements Command {
     private BigDecimal itemPrice;
 
     @JsonCreator
-    public OrderItemCommand(@JsonProperty("productId") String productId,
+    public OrderItemCommand(@JsonProperty("productId") UUID productId,
                             @JsonProperty("count") int count,
                             @JsonProperty("itemPrice") BigDecimal itemPrice) {
         this.productId = productId;
@@ -28,7 +29,7 @@ public class OrderItemCommand implements Command {
         this.itemPrice = itemPrice;
     }
 
-    public String getProductId() {
+    public UUID getProductId() {
         return productId;
     }
 

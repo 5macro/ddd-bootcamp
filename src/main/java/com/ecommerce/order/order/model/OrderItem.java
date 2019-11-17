@@ -1,25 +1,25 @@
 package com.ecommerce.order.order.model;
 
 import com.ecommerce.order.common.ddd.Entity;
-import com.ecommerce.order.product.ProductId;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class OrderItem implements Entity {
-    private ProductId productId;
+    private UUID productId;
     private int count;
     private BigDecimal itemPrice;
 
     private OrderItem() {
     }
 
-    private OrderItem(ProductId productId, int count, BigDecimal itemPrice) {
+    private OrderItem(UUID productId, int count, BigDecimal itemPrice) {
         this.productId = productId;
         this.count = count;
         this.itemPrice = itemPrice;
     }
 
-    public static OrderItem create(ProductId productId, int count, BigDecimal itemPrice) {
+    public static OrderItem create(UUID productId, int count, BigDecimal itemPrice) {
         return new OrderItem(productId, count, itemPrice);
     }
 
@@ -31,7 +31,7 @@ public class OrderItem implements Entity {
         this.count = count;
     }
 
-    public ProductId getProductId() {
+    public UUID getProductId() {
         return productId;
     }
 

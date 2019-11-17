@@ -10,15 +10,14 @@ import com.ecommerce.order.order.model.OrderId;
 import com.ecommerce.order.order.model.OrderItem;
 import com.ecommerce.order.order.representation.OrderRepresentation;
 import com.ecommerce.order.order.representation.OrderRepresentationService;
-import com.ecommerce.order.product.ProductId;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.ecommerce.order.order.model.OrderId.orderId;
-import static com.ecommerce.order.product.ProductId.productId;
 
 @Component
 public class OrderApplicationService implements ApplicationService {
@@ -40,7 +39,7 @@ public class OrderApplicationService implements ApplicationService {
     @Transactional
     public OrderId createOrder(CreateOrderCommand command) {
         List<OrderItem> items = command.getItems().stream()
-                .map(item -> OrderItem.create(productId(item.getProductId()),
+                .map(item -> OrderItem.create(item.getProductId(),
                         item.getCount(),
                         item.getItemPrice()))
                 .collect(Collectors.toList());
@@ -59,7 +58,7 @@ public class OrderApplicationService implements ApplicationService {
     @Transactional
     public void changeProductCount(String id, ChangeProductCountCommand command) {
         Order order = orderRepository.byId(orderId(id));
-        order.changeProductCount(ProductId.productId(command.getProductId()), command.getCount());
+        order.changeProductCount(UUID.fromString(command.getProductId()), command.getCount());
         orderRepository.save(order);
     }
 

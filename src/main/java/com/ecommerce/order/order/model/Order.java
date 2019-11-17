@@ -5,11 +5,11 @@ import com.ecommerce.order.common.utils.Address;
 import com.ecommerce.order.order.exception.OrderCannotBeModifiedException;
 import com.ecommerce.order.order.exception.PaidPriceNotSameWithOrderPriceException;
 import com.ecommerce.order.order.exception.ProductNotInOrderException;
-import com.ecommerce.order.product.ProductId;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 import static com.ecommerce.order.order.model.OrderStatus.CREATED;
 import static com.ecommerce.order.order.model.OrderStatus.PAID;
@@ -48,7 +48,7 @@ public class Order implements AggregateRoot {
 
     }
 
-    public void changeProductCount(ProductId productId, int count) {
+    public void changeProductCount(UUID productId, int count) {
         if (this.status == PAID) {
             throw new OrderCannotBeModifiedException(this.id);
         }
@@ -60,7 +60,7 @@ public class Order implements AggregateRoot {
         this.totalPrice = calculateTotalPrice();
     }
 
-    private OrderItem retrieveItem(ProductId productId) {
+    private OrderItem retrieveItem(UUID productId) {
         return items.stream()
                 .filter(item -> item.getProductId().equals(productId))
                 .findFirst()
